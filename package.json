@@ -1,0 +1,11 @@
+{
+  "name": "saas",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Emanuel Bacalhau",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
+  }
+}
