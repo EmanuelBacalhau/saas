@@ -14,7 +14,7 @@ async function main() {
     data: {
       name: 'John Doe',
       email: 'john@acme.com',
-      avatarUrl: 'https://gitbub.com/EmanuelBacalhau.png',
+      avatarUrl: 'https://github.com/EmanuelBacalhau.png',
       passwordHash,
     },
   })

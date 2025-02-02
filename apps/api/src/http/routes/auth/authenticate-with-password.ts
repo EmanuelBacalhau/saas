@@ -4,7 +4,7 @@ import { compare } from 'bcryptjs'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
-import { UnauthorizedRequest } from '../_errors/unauthorized-error'
+import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function authenticateWithPassword(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -44,11 +44,11 @@ export async function authenticateWithPassword(app: FastifyInstance) {
       })
 
       if (!userFromEmail) {
-        throw new UnauthorizedRequest('Invalid e-mail or password')
+        throw new UnauthorizedError('Invalid e-mail or password')
       }
 
       if (userFromEmail.passwordHash == null) {
-        throw new UnauthorizedRequest(
+        throw new UnauthorizedError(
           'User does not have a password, use social login'
         )
       }
@@ -59,7 +59,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
       )
 
       if (!isValidPassword) {
-        throw new UnauthorizedRequest('Invalid e-mail or password')
+        throw new UnauthorizedError('Invalid e-mail or password')
       }
 
       const token = await reply.jwtSign(

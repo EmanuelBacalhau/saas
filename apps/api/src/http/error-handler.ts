@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import { ZodError } from 'zod'
-import { BadRequest } from './routes/_errors/bad-request'
-import { UnauthorizedRequest } from './routes/_errors/unauthorized-error'
+import { BadRequestError } from './routes/_errors/bad-request-error'
+import { UnauthorizedError } from './routes/_errors/unauthorized-error'
 
 type FastifyErrorHandler = FastifyInstance['errorHandler']
 
@@ -18,13 +18,13 @@ export const errorHandler: FastifyErrorHandler = (error, request, reply) => {
     })
   }
 
-  if (error instanceof BadRequest) {
+  if (error instanceof BadRequestError) {
     return reply.status(400).send({
       message: error.message,
     })
   }
 
-  if (error instanceof UnauthorizedRequest) {
+  if (error instanceof UnauthorizedError) {
     return reply.status(401).send({
       message: error.message,
     })
