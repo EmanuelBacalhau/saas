@@ -22,6 +22,9 @@ export async function requestPasswordRecover(app: FastifyInstance) {
             {
               code: 201,
             },
+            {
+              code: 500,
+            },
           ]),
         },
       },

@@ -3,7 +3,7 @@ import { responseSwaggerSchema } from '@/lib/response-swagger-schema'
 import { compare } from 'bcryptjs'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
-import z from 'zod'
+import { z } from 'zod'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
 
 export async function authenticateWithPassword(app: FastifyInstance) {
