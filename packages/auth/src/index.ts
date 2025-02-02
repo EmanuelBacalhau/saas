@@ -1,22 +1,28 @@
 import {
   AbilityBuilder,
   type CreateAbility,
-  type ForcedSubject,
   type MongoAbility,
   createMongoAbility,
 } from '@casl/ability'
 import type { User } from './models/user'
 import { permissions } from './permissions'
+import type { BillingSubject } from './subjects/billing'
+import type { InviteSubject } from './subjects/invite'
+import type { OrganizationSubject } from './subjects/organization'
+import type { ProjectSubject } from './subjects/project'
+import type { UserSubject } from './subjects/user'
 
-const actions = ['manage', 'invite'] as const
-const subjects = ['User', 'all'] as const
-type AppAbilities = [
-  (typeof actions)[number],
-  (
-    | (typeof subjects)[number]
-    | ForcedSubject<Exclude<(typeof subjects)[number], 'all'>>
-  ),
-]
+export * from './models/user'
+export * from './models/organization'
+export * from './models/project'
+
+type AppAbilities =
+  | ProjectSubject
+  | UserSubject
+  | BillingSubject
+  | InviteSubject
+  | OrganizationSubject
+  | ['manage', 'all']
 
 export type AppAbility = MongoAbility<AppAbilities>
 export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
@@ -30,5 +36,9 @@ export function defineAbilityFor(user: User) {
 
   permissions[user.role](user, builder)
 
-  return builder.build()
+  return builder.build({
+    detectSubjectType: subject => {
+      return subject.__typename
+    },
+  })
 }
