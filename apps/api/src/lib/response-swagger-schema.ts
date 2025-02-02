@@ -1,6 +1,6 @@
 import z from 'zod'
 
-type StatusCode = 200 | 201 | 400 | 401 | 500
+type StatusCode = 200 | 201 | 204 | 400 | 401 | 500
 
 type Params = {
   code: StatusCode
