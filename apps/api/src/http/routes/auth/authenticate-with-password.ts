@@ -1,8 +1,10 @@
 import { prisma } from '@/lib/prisma'
+import { responseSwaggerSchema } from '@/lib/response-swagger-schema'
 import { compare } from 'bcryptjs'
 import type { FastifyInstance } from 'fastify'
 import type { ZodTypeProvider } from 'fastify-type-provider-zod'
 import z from 'zod'
+import { UnauthorizedRequest } from '../_errors/unauthorized-error'
 
 export async function authenticateWithPassword(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -15,6 +17,23 @@ export async function authenticateWithPassword(app: FastifyInstance) {
           email: z.string().email(),
           password: z.string().nonempty(),
         }),
+        response: responseSwaggerSchema([
+          {
+            code: 200,
+            schema: z.object({
+              token: z.string(),
+            }),
+          },
+          {
+            code: 400,
+          },
+          {
+            code: 401,
+          },
+          {
+            code: 500,
+          },
+        ]),
       },
     },
     async (request, reply) => {
@@ -25,15 +44,13 @@ export async function authenticateWithPassword(app: FastifyInstance) {
       })
 
       if (!userFromEmail) {
-        return reply.status(400).send({
-          message: 'Invalid e-mail or password',
-        })
+        throw new UnauthorizedRequest('Invalid e-mail or password')
       }
 
       if (userFromEmail.passwordHash == null) {
-        return reply.status(400).send({
-          message: 'User does not have a password, use social login',
-        })
+        throw new UnauthorizedRequest(
+          'User does not have a password, use social login'
+        )
       }
 
       const isValidPassword = await compare(
@@ -42,9 +59,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
       )
 
       if (!isValidPassword) {
-        return reply.status(400).send({
-          message: 'Invalid e-mail or password',
-        })
+        throw new UnauthorizedRequest('Invalid e-mail or password')
       }
 
       const token = await reply.jwtSign(
@@ -58,7 +73,7 @@ export async function authenticateWithPassword(app: FastifyInstance) {
         }
       )
 
-      return reply.status(201).send({
+      return reply.status(200).send({
         token,
       })
     }
