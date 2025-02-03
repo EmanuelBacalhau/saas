@@ -9,24 +9,19 @@ import { z } from 'zod'
 import { BadRequestError } from '../_errors/bad-request-error'
 import { UnauthorizedError } from '../_errors/unauthorized-error'
 
-export async function updateOrganization(app: FastifyInstance) {
+export async function shutdownOrganization(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .register(auth)
-    .put(
+    .delete(
       '/organizations/:slug',
       {
         schema: {
           tags: ['organizations'],
-          summary: 'Update a new organization',
+          summary: 'Shutdown organization',
           security: [{ bearerAuth: [] }],
           params: z.object({
             slug: z.string().nonempty(),
-          }),
-          body: z.object({
-            name: z.string().optional(),
-            domain: z.string().nullish().optional(),
-            shouldAttachUsersByDomain: z.boolean().optional(),
           }),
           response: responseSwaggerSchema([
             {
@@ -46,7 +41,6 @@ export async function updateOrganization(app: FastifyInstance) {
       },
       async (request, reply) => {
         const { slug } = request.params
-        const { name, domain, shouldAttachUsersByDomain } = request.body
 
         const userId = await request.getCurrentUserId()
         const { membership, organization } =
@@ -59,38 +53,21 @@ export async function updateOrganization(app: FastifyInstance) {
 
         const ability = getUserPermission(userId, membership.role)
 
-        if (ability.cannot('update', authOrganization)) {
+        if (ability.cannot('delete', authOrganization)) {
           throw new UnauthorizedError(
-            `You're not allowed to update this organization`
+            `You're not allowed to shutdown this organization`
           )
         }
 
-        if (domain) {
-          const organizationWithSameDomain =
-            await prisma.organization.findFirst({
-              where: {
-                domain,
-                slug: {
-                  not: slug,
-                },
-              },
-            })
+        await prisma.member.deleteMany({
+          where: {
+            organizationId: organization.id,
+          },
+        })
 
-          if (organizationWithSameDomain) {
-            throw new BadRequestError(
-              'Organization with this domain already exists'
-            )
-          }
-        }
-
-        await prisma.organization.update({
+        await prisma.organization.delete({
           where: {
             id: organization.id,
-          },
-          data: {
-            name,
-            domain,
-            shouldAttachUsersByDomain,
           },
         })
 
