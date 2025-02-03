@@ -24,7 +24,8 @@ export function responseSwaggerSchema(params: Params[]) {
             path: z.string(),
             message: z.string(),
           })
-          .array(),
+          .array()
+          .optional(),
       })
       .describe('Bad Request'),
     401: z
