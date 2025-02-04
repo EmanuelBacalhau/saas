@@ -22,6 +22,7 @@ import { createInvite } from './routes/invite/create-invite'
 import { getInvite } from './routes/invite/get-invite'
 import { getInvites } from './routes/invite/get-invites'
 import { rejectInvite } from './routes/invite/reject-invite'
+import { revokeInvite } from './routes/invite/revoke-invite'
 import { getMembers } from './routes/member/get-members'
 import { removeMember } from './routes/member/remove-member'
 import { updateMember } from './routes/member/udpate-member'
@@ -105,6 +106,7 @@ app.register(getInvite)
 app.register(getInvites)
 app.register(acceptInvite)
 app.register(rejectInvite)
+app.register(revokeInvite)
 
 app
   .listen({
