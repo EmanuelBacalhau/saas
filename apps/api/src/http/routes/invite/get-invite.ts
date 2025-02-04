@@ -10,7 +10,6 @@ import { BadRequestError } from '../_errors/bad-request-error'
 export async function getInvite(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
-    .register(auth)
     .get(
       '/invites/:inviteId',
       {
