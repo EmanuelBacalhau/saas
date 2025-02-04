@@ -93,6 +93,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      ky:
+        specifier: ^1.7.4
+        version: 1.7.4
       lucide-react:
         specifier: ^0.474.0
         version: 0.474.0(react@19.0.0)
@@ -111,6 +114,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.17)
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.1
     devDependencies:
       '@types/node':
         specifier: ^20
@@ -1117,6 +1123,10 @@ packages:
 
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
+
+  ky@1.7.4:
+    resolution: {integrity: sha512-zYEr/gh7uLW2l4su11bmQ2M9xLgQLjyvx58UyNM/6nuqyWFHPX5ktMjvpev3F8QWdjSsHUpnWew4PBCswBNuMQ==}
+    engines: {node: '>=18'}
 
   light-my-request@6.5.1:
     resolution: {integrity: sha512-0q82RyxIextuDtkA0UDofhPHIiQ2kmpa7fwElCSlm/8nQl36cDU1Cw+CAO90Es0lReH2HChClKL84I86Nc52hg==}
@@ -2430,6 +2440,8 @@ snapshots:
       - supports-color
 
   json-schema-traverse@1.0.0: {}
+
+  ky@1.7.4: {}
 
   light-my-request@6.5.1:
     dependencies:
