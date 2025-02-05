@@ -20,6 +20,7 @@
     "@saas/auth": "workspace:*",
     "@saas/env": "workspace:*",
     "@tabler/icons-react": "^3.29.0",
+    "@tanstack/react-query": "^5.66.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cookies-next": "^5.1.0",
