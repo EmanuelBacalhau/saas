@@ -1,3 +1,4 @@
+import { getCurrentOrg } from '@/auth/auth'
 import { getOrganizations } from '@/http/get-organization'
 import { ChevronsUpDown, PlusCircleIcon } from 'lucide-react'
 import { cookies } from 'next/headers'
@@ -14,9 +15,8 @@ import {
 } from './ui/dropdown-menu'
 
 export async function OrganizationSwitcher() {
-  const cookiesStore = await cookies()
+  const currentOrg = await getCurrentOrg()
   const { organizations } = await getOrganizations()
-  const currentOrg = cookiesStore.get('org')?.value
 
   const currentOrganization = organizations.find(org => org.slug === currentOrg)
 
