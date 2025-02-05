@@ -13,7 +13,7 @@ export function useFormState(
 ) {
   const [formState, setFormState] = useState<FormState>(
     initialState ?? {
-      success: true,
+      success: false,
       message: null,
       errors: null,
     }
@@ -34,6 +34,7 @@ export function useFormState(
       if (result.success && onSuccess) {
         await onSuccess()
       }
+
       setFormState(result)
     })
   }

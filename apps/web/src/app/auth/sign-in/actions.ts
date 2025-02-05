@@ -30,8 +30,8 @@ export async function signInWithEmailAndPassword(data: FormData) {
 
   try {
     const { token } = await signInWithPassword({
-      email: String(email),
-      password: String(password),
+      email: email,
+      password: password,
     })
 
     const cookiesStore = await cookies()
