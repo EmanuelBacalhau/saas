@@ -14,8 +14,6 @@ export async function getCurrentOrg() {
   const cookiesStore = await cookies()
   const currentOrg = cookiesStore.get('org')?.value
 
-  console.log(currentOrg)
-
   return currentOrg || null
 }
 
