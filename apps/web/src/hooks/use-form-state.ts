@@ -8,7 +8,7 @@ interface FormState {
 
 export function useFormState(
   action: (data: FormData) => Promise<FormState>,
-  onSuccess: () => Promise<void> | void,
+  onSuccess?: () => Promise<void> | void,
   initialState?: FormState
 ) {
   const [formState, setFormState] = useState<FormState>(
