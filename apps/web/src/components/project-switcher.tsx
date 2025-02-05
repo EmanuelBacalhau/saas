@@ -4,8 +4,7 @@ import { getProjects } from '@/http/get-projects'
 import { useQuery } from '@tanstack/react-query'
 import { ChevronsUpDownIcon, Loader2Icon, PlusCircleIcon } from 'lucide-react'
 import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
-import { use } from 'react'
+import { useParams } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   DropdownMenu,

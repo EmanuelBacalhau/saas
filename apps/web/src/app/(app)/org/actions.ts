@@ -1,6 +1,8 @@
 'use server'
 
+import { getCurrentOrg } from '@/auth/auth'
 import { createOrganization } from '@/http/create-organization'
+import { updateOrganization } from '@/http/update-organization'
 import { HTTPError } from 'ky'
 import { z } from 'zod'
 
@@ -45,6 +47,8 @@ const organizationSchema = z
     }
   )
 
+export type OrganizationSchema = z.infer<typeof organizationSchema>
+
 export async function createOrganizationAction(data: FormData) {
   const result = organizationSchema.safeParse(Object.fromEntries(data))
 
@@ -64,6 +68,55 @@ export async function createOrganizationAction(data: FormData) {
       name,
       domain,
       shouldAttachUsersByDomain,
+    })
+  } catch (error) {
+    if (error instanceof HTTPError) {
+      const { message } = await error.response.json()
+
+      return {
+        success: false,
+        message,
+        errors: null,
+      }
+    }
+
+    console.error(error)
+
+    return {
+      success: false,
+      message: 'An unexpected error occurred. Please, try again later.',
+      errors: null,
+    }
+  }
+
+  return {
+    success: true,
+    message: 'Successfully!',
+    errors: null,
+  }
+}
+
+export async function updateOrganizationAction(data: FormData) {
+  const currentOrg = await getCurrentOrg()
+  const result = organizationSchema.safeParse(Object.fromEntries(data))
+
+  if (!result.success) {
+    const errors = result.error.flatten().fieldErrors
+    return {
+      success: false,
+      message: null,
+      errors,
+    }
+  }
+
+  const { name, domain, shouldAttachUsersByDomain } = result.data
+
+  try {
+    await updateOrganization({
+      name,
+      domain,
+      shouldAttachUsersByDomain,
+      org: currentOrg as string,
     })
   } catch (error) {
     if (error instanceof HTTPError) {

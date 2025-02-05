@@ -1,7 +1,6 @@
 import { getCurrentOrg } from '@/auth/auth'
-import { getOrganizations } from '@/http/get-organization'
+import { getOrganizations } from '@/http/get-organizations'
 import { ChevronsUpDown, PlusCircleIcon } from 'lucide-react'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
