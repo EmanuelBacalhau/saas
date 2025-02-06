@@ -3,6 +3,7 @@ import { ability } from '@/auth/auth'
 import { SlashIcon } from 'lucide-react'
 import Image from 'next/image'
 import { OrganizationSwitcher } from './organization-switcher'
+import { PendingInvites } from './pending-invites'
 import { ProfileButton } from './profile-button'
 import { ProjectSwitcher } from './project-switcher'
 import { ThemeSwitcher } from './theme/theme-switcher'
@@ -29,6 +30,7 @@ export async function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+        <PendingInvites />
         <ThemeSwitcher />
         <Separator orientation="vertical" className="h-5" />
         <ProfileButton />

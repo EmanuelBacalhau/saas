@@ -1,4 +1,3 @@
-import type { Role } from '@saas/auth'
 import { api } from './api-client'
 
 interface AcceptInviteRequest {

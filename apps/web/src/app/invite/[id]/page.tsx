@@ -68,9 +68,8 @@ export default async function InvitePage(props: InvitePageProps) {
             </span>{' '}
             invite you to join{' '}
             <span className="font-medium text-foreground">
-              {invite.organization.name}{' '}
-            </span>
-            .{' '}
+              {invite.organization.name}.
+            </span>{' '}
             <span className="text-xs">
               {dayjs(invite.createdAt).fromNow()}.
             </span>

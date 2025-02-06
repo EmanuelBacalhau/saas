@@ -74,7 +74,7 @@ export async function acceptInvite(app: FastifyInstance) {
           prisma.invite.delete({
             where: {
               id: inviteId,
-            }
+            },
           }),
         ])
 
