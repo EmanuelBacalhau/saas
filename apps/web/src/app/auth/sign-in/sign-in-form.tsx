@@ -9,12 +9,14 @@ import { useFormState } from '@/hooks/use-form-state'
 import { IconBrandGithub } from '@tabler/icons-react'
 import { AlertTriangle, Loader2Icon } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { signInWithGitHub } from '../actions'
 import { signInWithEmailAndPassword } from './actions'
 
 export function SignInForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
     signInWithEmailAndPassword,
     () => {
@@ -35,7 +37,12 @@ export function SignInForm() {
 
         <div className="space-y-1">
           <Label htmlFor="email">E-mail</Label>
-          <Input type="email" name="email" id="email" />
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            defaultValue={searchParams.get('email') || ''}
+          />
 
           {errors?.email && (
             <p className="text-xs font-medium text-red-500 dark:text-red-400">

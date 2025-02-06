@@ -1,5 +1,6 @@
 'use server'
 
+import { acceptInvite } from '@/http/accept-invite'
 import { signInWithPassword } from '@/http/sign-in-with-password'
 import { HTTPError } from 'ky'
 import { cookies } from 'next/headers'
@@ -42,6 +43,15 @@ export async function signInWithEmailAndPassword(data: FormData) {
       maxAge: SEVEN_DAYS,
       path: '/',
     })
+
+    const inviteId = cookiesStore.get('inviteId')?.value
+
+    if (inviteId) {
+      try {
+        await acceptInvite({ inviteId })
+        cookiesStore.delete('inviteId')
+      } catch (error) {}
+    }
   } catch (error) {
     if (error instanceof HTTPError) {
       const { message } = await error.response.json()
